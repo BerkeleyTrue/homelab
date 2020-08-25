@@ -1,0 +1,16 @@
+---
+- name: qemu-guest
+  hosts: vms
+  become: true
+  tasks:
+    - name: ensure qemu-guest-agent is installed
+      apt:
+        name: qemu-guest-agent
+        state: present
+      notify:
+        - reboot on qemu agent install
+
+  handlers:
+    - name: reboot on qemu agent install
+      when: apt-qemu.changed
+      reboot:
