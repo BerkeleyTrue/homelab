@@ -1,0 +1,7 @@
+---
+- name: ensure qemu-guest-agent is installed
+  apt:
+    name: qemu-guest-agent
+    state: present
+  notify:
+    - reboot server
