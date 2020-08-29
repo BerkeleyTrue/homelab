@@ -29,9 +29,9 @@ resource "proxmox_vm_qemu" "omv" {
 
   disk {
     id           = 0
-    size         = 32
+    size         = "32G"
     storage      = "local-lvm"
     storage_type = "lvmthin"
-    type         = "virtio"
+    type         = "scsi"
   }
 }
