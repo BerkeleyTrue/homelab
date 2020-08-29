@@ -34,4 +34,10 @@ resource "proxmox_vm_qemu" "omv" {
     storage_type = "lvmthin"
     type         = "scsi"
   }
+
+  network {
+    id     = 0
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
 }
