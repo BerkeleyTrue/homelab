@@ -1,0 +1,6 @@
+---
+- name: Marceline
+  become: true
+  hosts: marceline
+  roles:
+    - prox
