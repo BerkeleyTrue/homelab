@@ -1,0 +1,11 @@
+---
+# SnapRAID from source, built in a Docker container
+- name: check if snapraid is installed
+  command: dpkg-query -W snapraid
+  register: pkg_check
+  failed_when: pkg_check.rc > 1
+  changed_when: pkg_check.rc == 1
+
+- name: build snapraid from source in a container
+  include: build.yml
+  when: pkg_check.rc == 1

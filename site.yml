@@ -5,3 +5,4 @@
   roles:
     - prox
     - docker-on-prox
+    - build-snapraid
