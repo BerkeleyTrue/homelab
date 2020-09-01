@@ -9,7 +9,7 @@
       - ca-certificates
       - curl
       - gnupg-agent
-      - software-properties-commo
+      - software-properties-common
     state: present
     update_cache: true
 
@@ -25,11 +25,15 @@
   apt_repository:
     repo: "{{ apt_repository }}"
     update_cache: true
+    mode: "0644"
     state: present
 
 - name: install (or update) docker package
   apt:
-    name: docker-engine
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
     state: "{{ 'latest' if update_docker_package else 'present' }}"
     update_cache: true
   notify:
