@@ -1,8 +1,8 @@
 ---
 # tasks file for roles/prox
-- name: Configure base OS
+- name: main.Configure base OS
   include: base-os.yml
   tags: baseos
 
-- name: Remove PX nag
+- name: main.Remove prox nag
   include: remove-nag.yml
