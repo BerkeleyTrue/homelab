@@ -1,5 +1,4 @@
 ---
-# tasks file for roles/docker-on-prox
 - name: install packages required by docker
   apt:
     # allow apt to use https

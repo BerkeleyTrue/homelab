@@ -4,5 +4,3 @@
   hosts: marceline
   roles:
     - prox
-    - docker-on-prox
-    - build-snapraid
