@@ -1,0 +1,8 @@
+---
+- name: OMV
+  become: true
+  hosts: omv
+  roles:
+    - omv
+    - install-docker-debian
+    - build-snapraid
