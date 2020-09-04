@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    proxmox = {
+      source  = "telmate.com/tf/proxmox"
+      version = "0.1.0"
+    }
+  }
+}
+
 variable "sshkeyfile" {
   type        = string
   description = "ssh pub key for main user"
