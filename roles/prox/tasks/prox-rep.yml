@@ -1,0 +1,16 @@
+---
+- name: remove enterprise reps
+  replace:
+    path: /etc/apt/sources.list.d/pve-enterprise.list
+    regexp: '(^deb https://enterprise\.proxmox\.com.*$)'
+    replace: '# \1'
+    backup: true
+
+- name: prox-rep.add no-sub deb
+  lineinfile:
+    path: /etc/apt/sources.list
+    state: present
+    backup: true
+    regexp: 'deb http://download.proxmox.com$'
+    line: 'deb http://download.proxmox.com/debian/pve buster pve-no-subscription'
+
