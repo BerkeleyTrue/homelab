@@ -76,7 +76,7 @@ resource "proxmox_vm_qemu" "omv" {
   qemu_os     = "l26"
   scsihw      = "virtio-scsi-pci"
   sockets     = 2
-  target_node = "pve"
+  target_node = "pve1"
   vcpus       = 0
 
   ipconfig0 = "ip=dhcp,ip6=dhcp"
