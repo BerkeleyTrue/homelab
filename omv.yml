@@ -1,8 +1,32 @@
 ---
 - name: OMV
-  become: true
   hosts: omv
-  roles:
-    - omv
-    - install-docker-debian
-    - build-snapraid
+  become: "{{ ssh_user != 'root' }}"
+  vars_prompt:
+    - name: ssh_user
+      private: false
+      prompt: "SSH User"
+      default: "{{ lookup('env', 'USER') }}"
+
+    - name: run_init
+      private: false
+      prompt: "shound initialize server"
+      default: false
+
+    - name: harden_linux_deploy_user_password
+      prompt: "deply user password"
+      private: true
+      encrypt: sha512_crypt
+      confirm: true
+      salt_size: 7
+      when: run_init|bool
+
+  pre_tasks:
+    - include_role:
+        name: githubixx.harden-linux
+      when: run_init|bool
+
+  # roles:
+    # - omv
+    # - install-docker-debian
+    # - build-snapraid
