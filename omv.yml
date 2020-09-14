@@ -5,28 +5,32 @@
   vars_prompt:
     - name: ssh_user
       private: false
-      prompt: "SSH User"
+      prompt: SSH User
       default: "{{ lookup('env', 'USER') }}"
+
+    - name: ssh_port
+      private: false
+      prompt: SSH port
+      default: 22
 
     - name: run_init
       private: false
       prompt: "shound initialize server"
       default: false
 
-    - name: harden_linux_deploy_user_password
-      prompt: "deply user password"
-      private: true
-      encrypt: sha512_crypt
-      confirm: true
-      salt_size: 7
-      when: run_init|bool
+    # - name: harden_linux_deploy_user_password
+    #   prompt: "deply user password"
+    #   private: true
+    #   encrypt: sha512_crypt
+    #   confirm: true
+    #   salt_size: 7
 
   pre_tasks:
     - include_role:
         name: githubixx.harden-linux
       when: run_init|bool
 
-  # roles:
-    # - omv
-    # - install-docker-debian
-    # - build-snapraid
+  roles:
+    - omv
+    - install-docker-debian
+    - build-snapraid

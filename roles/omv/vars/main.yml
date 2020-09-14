@@ -1,29 +1,24 @@
 ---
 mntpnts:
   # yamllint disable rule:line-length
-  - {
-    name: /mnt/pari1,
-    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LE1SE,
-    fs: ext4,
-  }
-  - {
-    name: /mnt/disk1,
-    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEJHE,
-    fs: ext4,
-    fuse: true,
-  }
-  - {
-    name: /mnt/disk2,
-    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEKV3,
-    fs: ext4,
-    fuse: true,
-  }
-  - {
-    name: /mnt/disk3,
-    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEN1A,
-    fs: ext4,
-    fuse: true,
-  }
+  - name: /mnt/pari1
+    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LE1SE
+    fs: ext4
+
+  - name: /mnt/disk1
+    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEJHE
+    fs: ext4
+    fuse: true
+
+  - name: /mnt/disk2
+    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEKV3
+    fs: ext4
+    fuse: true
+
+  - name: /mnt/disk3
+    src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEN1A
+    fs: ext4
+    fuse: true
   # yamllint enable rule:line-length
 
 fusepnt: /mnt/storage

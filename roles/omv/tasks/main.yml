@@ -1,4 +1,6 @@
 ---
 - name: main.Configure base OS
   include: base-os.yml
-  tags: baseos
+  when: baseos
+  tags:
+    - baseos

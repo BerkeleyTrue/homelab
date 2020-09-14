@@ -1,4 +1,4 @@
 #!/bin/lua
 
--- run home lab commands
+-- run omv lab commands
 os.execute('ansible-playbook -i hosts.yml omv.yml')
