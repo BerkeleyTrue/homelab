@@ -4,3 +4,6 @@
   when: baseos
   tags:
     - baseos
+
+- name: main.extras
+  include: extras.yml
