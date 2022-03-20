@@ -1,9 +1,0 @@
----
-harden_linux_ufw_rules:
-  - rule: "allow"
-    to_port: "8128"
-    protocol: "tcp"
-  - rule: "allow"
-    to_port: "http"
-  - rule: "allow"
-    to_port: "https"
