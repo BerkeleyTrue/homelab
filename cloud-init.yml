@@ -1,5 +1,0 @@
----
-- name: prep for cloud init
-  hosts: vms
-  roles:
-    - cloud-init

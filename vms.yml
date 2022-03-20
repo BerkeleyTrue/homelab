@@ -1,6 +1,0 @@
----
-- name: Manage vms
-  hosts: vms
-  become: true
-  roles:
-    - qemu-guest-agent
