@@ -1,13 +1,11 @@
 ## To Do
 
 - create fusion of hdds
-- set up extras
-- create snapraid from extras
+- create snapraid of drives
 
 ## Doing
 
-- passthrough  HDDs
-- passthrough GPU
+- fix: show drives through sata card
 
 ## Done
 

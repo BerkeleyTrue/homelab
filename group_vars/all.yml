@@ -1,26 +1,7 @@
 ---
-harden_linux_required_packages:
-  - ufw
-  - sshguard
-  - unattended-upgrades
-  - sudo
-  - fail2ban
-
 harden_linux_deploy_user: berkeleytrue
-harden_linux_deploy_user_uid: 1111
-harden_linux_deploy_user_home: /home/berkeleytrue
 harden_linux_deploy_user_public_keys:
-  - /home/berkeleytrue/.ssh/id_rsa.pub
+  - /home/berkeleytrue/.ssh/id_ed25519.pub
 
-harden_linux_sshd_settings_user:
-  "^Port ": "Port 8128"
-
-harden_linux_ufw_rules:
-  - rule: "allow"
-    to_port: "8128"
-    protocol: "tcp"
-
-harden_linux_sshguard_whitelist:
-  - "127.0.0.0/8"
-  - "::1/128"
-  - "192.168.1.110"
+harden_linux_optional_packages:
+  - neovim

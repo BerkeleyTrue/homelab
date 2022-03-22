@@ -1,0 +1,6 @@
+---
+- hosts: homelab
+  become: true
+  become_user: root
+  roles:
+    - harden-linux
