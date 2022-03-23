@@ -1,8 +1,0 @@
----
-- name: nag.modify line which performs license check
-  replace:
-    path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
-    regexp: "data.status \\!== \\'Active\\'"
-    replace: "false"
-    backup: true
-  notify: restart pveproxy

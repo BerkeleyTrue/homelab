@@ -1,9 +1,0 @@
----
-- name: main.Configure base OS
-  include: base-os.yml
-  when: baseos
-  tags:
-    - baseos
-
-- name: main.extras
-  include: extras.yml
