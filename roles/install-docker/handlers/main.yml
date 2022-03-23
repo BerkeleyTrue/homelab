@@ -1,11 +1,12 @@
 ---
 - name: start docker service
-  service:
+  systemd:
     name: docker
     state: started
 
 - name: systemd daemon-reload
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: true
 
 - name: restart docker service
   service:

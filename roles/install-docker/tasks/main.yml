@@ -1,45 +1,50 @@
 ---
-- name: install packages required by docker
+- name: Uninstall old versions of Docker
   apt:
-    # allow apt to use https
-    # needed for docker
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+    state: absent
+
+- name: Install packages required by docker
+  apt:
     name:
       - apt-transport-https
       - ca-certificates
       - curl
-      - gnupg-agent
-      - software-properties-common
+      - gnupg
     state: present
     update_cache: true
 
-- name: add docker repository key
+- name: Add docker repository key
   apt_key:
-    id: "{{ apt_key_sig }}"
-    url: "{{ apt_key_url }}"
+    id: '{{ apt_key_sig }}'
+    url: '{{ apt_key_url }}'
     state: present
   register: add_repository_key
   ignore_errors: true
 
-- name: add docker repository and update apt cache
+- name: Add docker repository and update apt cache
   apt_repository:
-    repo: "{{ apt_repository }}"
+    repo: '{{ apt_repository }}'
+    mode: '0644'
     update_cache: true
-    mode: "0644"
     state: present
 
-- name: install (or update) docker package
+- name: Install (or update) docker package
   apt:
     name:
       - docker-ce
       - docker-ce-cli
       - containerd.io
     state: "{{ 'latest' if update_docker_package else 'present' }}"
-    update_cache: true
+    update_cache: '{{ update_docker_package }}'
   notify:
     - systemd daemon-reload
     - restart docker service
 
 - name: start docker
-  service:
+  systemd:
     name: docker
     state: started
