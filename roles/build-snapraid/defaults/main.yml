@@ -1,2 +1,3 @@
 ---
-build_path: /tmp/build
+snapraid_build_path: /tmp/build-snapraid
+snapraid_force_install: false

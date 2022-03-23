@@ -1,0 +1,28 @@
+---
+- name: create directory
+  file:
+    dest: '{{ build_path }}'
+    state: directory
+    mode: 0700
+
+- name: copy script
+  template:
+    src: build.jinja
+    dest: '{{ build_path }}/build.sh'
+    mode: 0775
+
+- name: copy Dockerfile
+  copy:
+    src: Dockerfile
+    dest: '{{ build_path }}'
+    mode: 0775
+
+- name: SnapRAID .deb
+  command: '{{ build_path }}/build.sh'
+  become: true
+  changed_when: true
+
+- name: Install .deb file
+  apt:
+    deb: '{{ build_path }}/build/snapraid-from-source.deb'
+  become: true
