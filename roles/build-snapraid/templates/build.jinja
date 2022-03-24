@@ -21,9 +21,9 @@ LATEST_RELEASE_TAG="$(get_latest_snapraid_release)"
 BUILD_ARGS="--build-arg SNAPRAID_VERSION=${1:-$LATEST_RELEASE_TAG}"
 
 # Uncomment BUILD_PATH if using this Dockerfile as part of an Ansible deployment
-BUILD_PATH="{{ build_path }}"
+BUILD_PATH="{{ snapraid_build_path }}"
 echo "build path: $BUILD_PATH"
-mkdir $BUILD_PATH
+mkdir -p $BUILD_PATH
 cd $BUILD_PATH
 
 echo "BUILD_ARGS=$BUILD_ARGS"
