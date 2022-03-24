@@ -1,0 +1,7 @@
+---
+- hosts: homelab
+  become: true
+  become_user: root
+  roles:
+    - install-docker
+    - build-snapraid
