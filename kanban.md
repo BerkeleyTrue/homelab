@@ -1,13 +1,16 @@
 ## To Do
 
-- create fusion of hdds
-- create snapraid of drives
+- add rancher
+- add k8s
+- add portainer
 
 ## Doing
 
-- fix: show drives through sata card
+- create snapraid of drives
 
 ## Done
 
 - Teardown/clean up old OMV server
 - create new server
+- fix: show drives through sata card
+- create fusion of hdds
