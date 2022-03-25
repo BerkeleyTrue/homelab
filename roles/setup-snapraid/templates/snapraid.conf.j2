@@ -18,14 +18,14 @@ content {{ content_file }}
 # n = parity_n + 1
 # can be located off of fuse pool
 {% for disk in snapraid_parity_disks %}
-  {% if disk.content is defined and disk.content == true %}
+{% if disk.content is defined and disk.content == true %}
 content {{ disk.name }}/snapraid.content
-  {% endif %}
+{% endif %}
 {% endfor %}
 {% for disk in snapraid_data_disks %}
-  {% if disk.content is defined and disk.content == true %}
+{% if disk.content is defined and disk.content == true %}
 content {{ disk.name }}/.snapraid.content
-  {% endif %}
+{% endif %}
 {% endfor %}
 
 # Data disks
