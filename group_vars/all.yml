@@ -11,11 +11,13 @@ fuse_mount_points:
   - name: /mnt/pari1
     src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LE1SE
     fs: ext4
+    content: true
 
   - name: /mnt/disk1
     src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEJHE
     fs: ext4
     fuse: true
+    content: true
 
   - name: /mnt/disk2
     src: /dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N0_WD-WX62D10LEKV3
