@@ -1,0 +1,49 @@
+---
+version: '2'
+
+services:
+  traefik:
+    image: traefik:v2.6
+    container_name: traefik_container
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - web
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - CF_API_EMAIL={{ CLOUDFLARE_EMAIL }}
+      - CF_DNS_API_TOKEN={{ CLOUDFLARE_TOKEN }}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - {{ traefik_data }}/traefik.yml:/traefik.yml:ro
+      - {{ traefik_data }}/config.yml:/config.yml:ro
+      - {{ traefik_data }}/acme.json:/acme.json
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=http
+      - traefik.http.routers.traefik.rule=Host(`traefik.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD
+      - traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+      - traefik.http.routers.traefik.middlewares=traefik-https-redirect
+      - traefik.http.routers.traefik-secure.entrypoints=https
+      - traefik.http.routers.traefik-secure.rule=Host(`traefik.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.traefik-secure.middlewares=traefik-auth
+      - traefik.http.routers.traefik-secure.tls=true
+      - traefik.http.routers.traefik-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.traefik-secure.tls.domains[0].main={{ TRAEFIK_PUBLIC_URL }}
+      - traefik.http.routers.traefik-secure.tls.domains[0].sans=*.{{ TRAEFIK_PUBLIC_URL }}
+      - traefik.http.routers.traefik-secure.service=api@internal
+
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: traefik/whoami
+    labels:
+      - traefik.http.routers.whoami.rule=Host(`whoami.{{ TRAEFIK_PUBLIC_URL }}`)
+networks:
+  web:
+    external: true

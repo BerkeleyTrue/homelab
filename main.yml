@@ -1,9 +1,18 @@
 ---
 - hosts: homelab
-  become: true
-  become_user: root
+  vars_files:
+    - vars/secrets.yml
   roles:
-    - install-docker
-    - build-snapraid
-    - build-fuse
-    - setup-snapraid
+    - name: install-docker
+      become: true
+      become_user: root
+    - name: build-snapraid
+      become: true
+      become_user: root
+    - name: build-fuse
+      become: trge
+      become_user: root
+    - name: setup-snapraid
+      become: true
+      become_user: root
+    - traefik

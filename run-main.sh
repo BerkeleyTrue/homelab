@@ -1,1 +1,1 @@
-ansible-playbook main.yml --inventory hosts.ini  --user berkeleytrue
+ansible-playbook main.yml --inventory hosts.ini --user berkeleytrue

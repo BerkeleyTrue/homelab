@@ -14,8 +14,16 @@
       - ca-certificates
       - curl
       - gnupg
+      - python3-pip
     state: present
     update_cache: true
+
+- name: Install pips required by ansible docker collection
+  pip:
+    name:
+      - docker
+      - docker-compose
+    state: present
 
 - name: Add docker repository key
   apt_key:

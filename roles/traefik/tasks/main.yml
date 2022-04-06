@@ -1,0 +1,47 @@
+---
+- name: Ensure traefik folders exits
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: 0755
+  loop:
+    - '{{ traefik_folder }}'
+    - '{{ traefik_data }}'
+
+- name: Ensure acme file exists
+  copy:
+    content: ''
+    dest: '{{ traefik_data }}/acme.json'
+    force: false
+    mode: 0600
+
+- name: Copy config file
+  template:
+    src: traefik/config.yml.j2
+    dest: '{{ traefik_data }}/config.yml'
+    mode: 0644
+
+- name: Copy traefik file
+  template:
+    src: traefik/traefik.yml.j2
+    dest: '{{ traefik_data }}/traefik.yml'
+    mode: 0644
+
+- name: Ensure docker compose file exits
+  template:
+    src: traefik/docker-compose.yml.j2
+    dest: '{{ traefik_data}}/docker-compose.yml'
+    mode: 0644
+
+- name: Ensure docker network
+  become: true
+  become_user: root
+  docker_network:
+    name: web
+
+- name: Ensure traefik is up
+  become: true
+  become_user: root
+  docker_compose:
+    project_name: traefik
+    project_src: '{{ traefik_data }}'
