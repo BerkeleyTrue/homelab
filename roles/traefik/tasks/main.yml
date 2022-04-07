@@ -20,12 +20,16 @@
     src: traefik/config.yml.j2
     dest: '{{ traefik_data }}/config.yml'
     mode: 0644
+  notify:
+    - Restart traefik
 
 - name: Copy traefik file
   template:
     src: traefik/traefik.yml.j2
     dest: '{{ traefik_data }}/traefik.yml'
     mode: 0644
+  notify:
+    - Restart traefik
 
 - name: Ensure docker compose file exits
   template:
