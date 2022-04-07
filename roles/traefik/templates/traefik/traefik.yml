@@ -12,7 +12,7 @@ entrypoints:
   web:
     address: :80
   secureweb:
-    address: :433
+    address: :443
     http:
       tls:
         certResolver: cloudflare
