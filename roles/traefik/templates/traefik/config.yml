@@ -2,7 +2,7 @@
 http:
   routers:
     pihole:
-      rule: "Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`) || Path(`/pihole`)"
+      rule: Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`)
       service: pihole
       entryPoints:
         - web
