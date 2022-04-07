@@ -17,7 +17,7 @@
 
 - name: Copy config file
   template:
-    src: traefik/config.yml.j2
+    src: traefik/config.yml
     dest: '{{ traefik_data }}/config.yml'
     mode: 0644
   notify:
@@ -25,7 +25,7 @@
 
 - name: Copy traefik file
   template:
-    src: traefik/traefik.yml.j2
+    src: traefik/traefik.yml
     dest: '{{ traefik_data }}/traefik.yml'
     mode: 0644
   notify:
@@ -33,7 +33,7 @@
 
 - name: Ensure docker compose file exits
   template:
-    src: traefik/docker-compose.yml.j2
+    src: traefik/docker-compose.yml
     dest: '{{ traefik_data}}/docker-compose.yml'
     mode: 0644
 
