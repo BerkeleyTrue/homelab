@@ -1,12 +1,21 @@
 ---
+accessLog: {}
+log:
+  level: DEBUG
+
 api:
   dashboard: true
   debug: true
+  insecure: true
+
 entrypoints:
-  http:
+  web:
     address: :80
-  https:
+  secureweb:
     address: :433
+    http:
+      tls:
+        certResolver: cloudflare
 
 serversTransport:
   insecureSkipVerify: true
@@ -15,6 +24,7 @@ providers:
   docker:
     endpoint: unix:///var/run/docker.sock
     exposedByDefault: false
+
   file:
     filename: /config.yml
 

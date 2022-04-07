@@ -2,19 +2,31 @@
 http:
   routers:
     pihole:
+      rule: "Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`) || Path(`/pihole`)"
+      service: pihole
       entryPoints:
-        - https
-      rule: Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`)
+        - web
+
       middlewares:
         - default-headers
         - addprefix-pihole
-        - https-redirect-scheme
+        # - https-redirect-scheme
+
+    securepihole:
+      rule: Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`)
+      service: pihole
+      entryPoints:
+        - secureweb
+
+      middlewares:
+        - default-headers
+        - addprefix-pihole
 
   services:
     pihole:
       loadBalancer:
         servers:
-          - url: http://192.168.1.223:80
+          - url: http://192.168.1.226:80
         passHostHeader: true
 
   middlewares:
@@ -29,7 +41,6 @@ http:
     default-headers:
       headers:
         frameDeny: true
-        sslRedirect: true
         browserXssFilter: true
         contentTypeNosniff: true
         forceSTSHeader: true
@@ -37,6 +48,9 @@ http:
         stsPreload: true
         stsSeconds: 15552000
         customFrameOptionsValue: SAMEORIGIN
+
+    default-ssl-redirect-headers:
+      headers:
         customRequestHeaders:
           X-Forwarded-Proto: https
 
