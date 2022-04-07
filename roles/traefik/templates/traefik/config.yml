@@ -9,8 +9,7 @@ http:
 
       middlewares:
         - default-headers
-        - addprefix-pihole
-        # - https-redirect-scheme
+        - https-redirect-scheme
 
     securepihole:
       rule: Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`)
