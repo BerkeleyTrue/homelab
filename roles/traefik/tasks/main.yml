@@ -38,14 +38,10 @@
     mode: 0644
 
 - name: Ensure docker network
-  become: true
-  become_user: root
   docker_network:
     name: web
 
 - name: Ensure traefik is up
-  become: true
-  become_user: root
   docker_compose:
     project_name: traefik
     project_src: '{{ traefik_data }}'
