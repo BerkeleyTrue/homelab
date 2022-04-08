@@ -21,6 +21,26 @@ http:
         - default-headers
         - addprefix-pihole
 
+
+    delora:
+      rule: Host(`delora.{{ TRAEFIK_PUBLIC_URL }}`)
+      service: delora
+      entryPoints:
+        - web
+
+      middlewares:
+        - default-headers
+
+    delora-secure:
+      rule: Host(`delora.{{ TRAEFIK_PUBLIC_URL }}`)
+      service: delora
+      entryPoints:
+        - secureweb
+
+      middlewares:
+        - default-headers
+        - addprefix-pihole
+
   services:
     pihole:
       loadBalancer:
@@ -28,10 +48,17 @@ http:
           - url: http://192.168.1.226:80
         passHostHeader: true
 
+    delora:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.199:80
+        passHostHeader: true
+
   middlewares:
     addprefix-pihole:
       addPrefix:
         prefix: /admin
+
     https-redirect-scheme:
       redirectScheme:
         scheme: https
