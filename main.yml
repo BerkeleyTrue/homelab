@@ -10,7 +10,7 @@
       become: true
       become_user: root
     - name: build-fuse
-      become: trge
+      become: true
       become_user: root
     - name: setup-snapraid
       become: true
