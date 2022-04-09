@@ -1,0 +1,29 @@
+---
+- name: Ensure rancher dir exits
+  file:
+    name: '{{ rancher_dir }}'
+    state: directory
+
+- name: Ensure log folder exits
+  become: true
+  become_user: root
+  file:
+    path: /var/log/rancher/
+    mode: 0755
+    state: directory
+    group: docker
+
+- name: Ensure docker compose file exits
+  template:
+    src: rancher/docker-compose.yml
+    dest: '{{ rancher_dir }}/docker-compose.yml'
+    mode: 0644
+
+- name: Ensure docker network
+  docker_network:
+    name: web
+
+- name: Run Rancher Container
+  docker_compose:
+    project_name: rancher-container
+    project_src: '{{ rancher_dir }}'
