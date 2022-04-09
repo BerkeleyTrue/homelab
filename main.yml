@@ -16,3 +16,4 @@
       become: true
       become_user: root
     - traefik
+    - heimdall

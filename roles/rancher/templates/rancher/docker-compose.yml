@@ -27,6 +27,7 @@ services:
       - traefik.http.routers.rancher-secure.entrypoints=secureweb
       - traefik.http.routers.rancher-secure.rule=Host(`rancher.{{ TRAEFIK_PUBLIC_URL }}`)
       - traefik.http.routers.rancher-secure.service=rancher-service
+
       - traefik.http.services.rancher-service.loadbalancer.server.port=80
 
 networks:

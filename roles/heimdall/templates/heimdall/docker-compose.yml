@@ -1,0 +1,40 @@
+---
+version: '2'
+
+services:
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall_cont
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+
+    networks:
+      - web
+    volumes:
+      - heimdall-data:/config
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.heimdall-https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+
+      - traefik.http.routers.heimdall-web.entrypoints=web
+      - traefik.http.routers.heimdall-web.rule=Host(`heimdall.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.heimdall-web.middlewares=heimdall-https-redirect,sslheader
+
+      - traefik.http.routers.heimdall-secure.entrypoints=secureweb
+      - traefik.http.routers.heimdall-secure.rule=Host(`heimdall.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.heimdall-secure.service=heimdall-service
+
+      - traefik.http.services.heimdall-service.loadbalancer.server.port=80
+
+volumes:
+  heimdall-data:
+
+
+networks:
+  web:
+    external: true

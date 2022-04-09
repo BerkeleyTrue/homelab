@@ -1,0 +1,22 @@
+---
+- name: Ensure Dir
+  file:
+    path: '{{ ansible_env.HOME }}/heimdall'
+    mode: 0755
+    state: directory
+
+
+- name: Ensure compose file
+  template:
+    src: heimdall/docker-compose.yml
+    dest: '{{ ansible_env.HOME }}/heimdall/docker-compose.yml'
+    mode: 0644
+
+- name: Ensure docker network
+  docker_network:
+    name: web
+
+- name: Ensure Container is up
+  docker_compose:
+    project_name: heimdall
+    project_src: '{{ ansible_env.HOME }}/heimdall'
