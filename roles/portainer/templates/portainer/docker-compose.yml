@@ -1,0 +1,54 @@
+---
+version: '2'
+
+services:
+  heimdall:
+    image: portainer/portainer-ce:2.9.3
+    command: -H unix:///var/run/docker.sock
+    container_name: portainer
+    restart: unless-stopped
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+
+      # portainer frontend
+      # web
+      - traefik.http.routers.portainer-web.entrypoints=web
+      - traefik.http.routers.portainer-web.rule=Host(`portainer.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.portainer-web.service=portainer-frontend-service
+      - traefik.http.routers.portainer-web.middlewares=https-redirect,sslheader
+
+      # secure
+      - traefik.http.routers.portainer-frontend.rule=Host(`portainer.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.portainer-frontend.entrypoints=secureweb
+      - traefik.http.routers.portainer-frontend.service=portainer-frontend-service
+
+      - traefik.http.services.portainer-frontend-service.loadbalancer.server.port=9000
+
+      # portainer edge
+      # web
+      - traefik.http.routers.portainer-edge-web.entrypoints=web
+      - traefik.http.routers.portainer-edge-web.rule=Host(`edge.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.portainer-edge-web.service=portainer-edge-service
+      - traefik.http.routers.portainer-edge-web.middlewares=https-redirect,sslheader
+
+      # secure
+      - traefik.http.routers.portainer-edge.entrypoints=secureweb
+      - traefik.http.routers.portainer-edge.rule=Host(`edge.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.portainer-edge.service=portainer-edge-service
+
+      - traefik.http.services.portainer-edge-service.loadbalancer.server.port=8000
+
+volumes:
+  portainer-data:
+
+networks:
+  web:
+    external: true

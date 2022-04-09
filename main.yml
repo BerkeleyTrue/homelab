@@ -17,3 +17,4 @@
       become_user: root
     - traefik
     - heimdall
+    - portainer
