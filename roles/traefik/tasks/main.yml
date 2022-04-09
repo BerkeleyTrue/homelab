@@ -15,6 +15,27 @@
     force: false
     mode: 0600
 
+- name: Ensure log folder exits
+  become: true
+  become_user: root
+  file:
+    path: /var/log/traefik
+    mode: 0755
+    state: directory
+    group: docker
+
+- name: Ensure log files exits
+  become: true
+  become_user: root
+  copy:
+    content: ''
+    dest: /var/log/traefik/{{ item }}
+    mode: 0644
+    force: false
+  loop:
+    - access.log
+    - traefik.log
+
 - name: Copy config file
   template:
     src: traefik/config.yml

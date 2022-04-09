@@ -1,7 +1,9 @@
 ---
-accessLog: {}
+accessLog:
+  filePath: /var/log/access.log
 log:
   level: DEBUG
+  filePath: /var/log/traefik.logs
 
 api:
   dashboard: true

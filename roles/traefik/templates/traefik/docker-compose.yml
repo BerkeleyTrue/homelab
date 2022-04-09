@@ -20,6 +20,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log/traefik/access.log:/var/log/access.log
+      - /var/log/traefik/traefik.log:/var/log/traefik.log
       - '{{ traefik_data }}/traefik.yml:/traefik.yml:ro'
       - '{{ traefik_data }}/config.yml:/config.yml:ro'
       - '{{ traefik_data }}/acme.json:/acme.json'
@@ -44,6 +46,7 @@ services:
   whoami:
     # A container that exposes an API to show its IP address
     image: traefik/whoami
+    container_name: whoami_container
     networks:
       - web
     labels:
