@@ -1,6 +1,20 @@
 ---
 http:
   routers:
+    pikvm-web:
+      rule: Host(`pikvm.{{ TRAEFIK_PUBLIC_URL }}`)
+      service: pikvm-service
+      entryPoints:
+        - web
+      middlewares:
+        - https-redirect-scheme
+
+    pikvim-secure:
+      rule: Host(`pikvm.{{ TRAEFIK_PUBLIC_URL }}`)
+      service: pikvm-service
+      entryPoints:
+        - secureweb
+
     pihole:
       rule: Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`)
       service: pihole
@@ -52,6 +66,12 @@ http:
       loadBalancer:
         servers:
           - url: http://192.168.1.199:80
+        passHostHeader: true
+
+    pikvm-service:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.111:443
         passHostHeader: true
 
   middlewares:
