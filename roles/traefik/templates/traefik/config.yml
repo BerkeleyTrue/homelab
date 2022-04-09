@@ -55,6 +55,21 @@ http:
         - default-headers
         - addprefix-pihole
 
+    openwrt-web:
+      rule: Host(`openwrt.{{ TRAEFIK_PUBLIC_URL }}`)
+      service: openwrt-service
+      entryPoints:
+        - web
+
+      middlewares:
+        - https-redirect-scheme
+
+    openwrt-secure:
+      rule: Host(`openwrt.{{ TRAEFIK_PUBLIC_URL }}`)
+      service: openwrt-service
+      entryPoints:
+        - secureweb
+
   services:
     pihole:
       loadBalancer:
@@ -71,8 +86,13 @@ http:
     pikvm-service:
       loadBalancer:
         servers:
-          - url: http://192.168.1.111:443
+          - url: http://192.168.1.111:80
         passHostHeader: true
+
+    openwrt-service:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.1:80
 
   middlewares:
     addprefix-pihole:
