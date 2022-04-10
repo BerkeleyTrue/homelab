@@ -53,7 +53,6 @@ http:
 
       middlewares:
         - default-headers
-        - addprefix-pihole
 
     openwrt-web:
       rule: Host(`openwrt.{{ TRAEFIK_PUBLIC_URL }}`)
