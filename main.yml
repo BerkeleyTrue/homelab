@@ -18,3 +18,4 @@
     - traefik
     - heimdall
     - portainer
+    - kuma
