@@ -16,6 +16,10 @@
   docker_network:
     name: web
 
+- name: Ensure volume exists
+  docker_volume:
+    name: portainer-db
+
 - name: Ensure Container is up
   docker_compose:
     project_name: portainer

@@ -2,7 +2,7 @@
 version: '2'
 
 services:
-  heimdall:
+  portainer:
     image: portainer/portainer-ce:2.9.3
     command: -H unix:///var/run/docker.sock
     container_name: portainer
@@ -11,7 +11,7 @@ services:
       - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer-data:/data
+      - portainer-db:/data
 
     labels:
       - traefik.enable=true
@@ -47,7 +47,8 @@ services:
       - traefik.http.services.portainer-edge-service.loadbalancer.server.port=8000
 
 volumes:
-  portainer-data:
+  portainer-db:
+    external: true
 
 networks:
   web:
