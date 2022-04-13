@@ -1,20 +1,20 @@
 ---
-accessLog:
-  filePath: /var/log/access.log
-  format: json
-
-  fields:
-    defaultMode: drop
-    names:
-      RouterName: keep
-      ServiceName: keep
-      RequestAddr: keep
-      RequestHost: keep
-      RequestMethod: keep
-      RequestPath: keep
-      RequestProtocol: keep
-      RequestScheme: keep
-      ClientHost: keep
+# accessLog:
+#   filePath: /var/log/access.log
+#   format: json
+#
+#   fields:
+#     defaultMode: drop
+#     names:
+#       RouterName: keep
+#       ServiceName: keep
+#       RequestAddr: keep
+#       RequestHost: keep
+#       RequestMethod: keep
+#       RequestPath: keep
+#       RequestProtocol: keep
+#       RequestScheme: keep
+#       ClientHost: keep
 
 log:
   level: INFO
