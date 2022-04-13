@@ -27,17 +27,18 @@ services:
       - '{{ traefik_data }}/acme.json:/acme.json'
     labels:
       - traefik.enable=true
-      - traefik.http.middlewares.traefik-auth.basicauth.users=USER:BASIC_AUTH_PASSWORD
+      # - traefik.http.middlewares.traefik-auth.basicauth.users={{ traefik_user }}:{{ traefik_user_password_hash }}
       - traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+      - traefik.http.middlewares.test-ipwhitelist.ipwhitelist.sourcerange=192.168.1.1/24
 
       - traefik.http.routers.traefik.entrypoints=web
       - traefik.http.routers.traefik.rule=Host(`traefik.{{ traefik_public_url }}`)
       - traefik.http.routers.traefik.middlewares=traefik-https-redirect
 
       - traefik.http.routers.traefik-secure.entrypoints=secureweb
-      - traefik.http.routers.traefik-secure.middlewares=traefik-auth
       - traefik.http.routers.traefik-secure.rule=Host(`traefik.{{ traefik_public_url }}`)
+      # - traefik.http.routers.traefik-secure.middlewares=traefik-auth
       - traefik.http.routers.traefik-secure.tls=true
       - traefik.http.routers.traefik-secure.tls.certresolver=cloudflare
       - traefik.http.routers.traefik-secure.tls.domains[0].main={{ traefik_public_url }}
