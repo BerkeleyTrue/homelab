@@ -2,7 +2,7 @@
 http:
   routers:
     pikvm-web:
-      rule: Host(`pikvm.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`pikvm.{{ traefik_public_url }}`)
       service: pikvm-service
       entryPoints:
         - web
@@ -10,13 +10,13 @@ http:
         - https-redirect-scheme
 
     pikvim-secure:
-      rule: Host(`pikvm.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`pikvm.{{ traefik_public_url }}`)
       service: pikvm-service
       entryPoints:
         - secureweb
 
     pihole:
-      rule: Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`pihole.{{ traefik_public_url }}`)
       service: pihole
       entryPoints:
         - web
@@ -26,7 +26,7 @@ http:
         - https-redirect-scheme
 
     securepihole:
-      rule: Host(`pihole.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`pihole.{{ traefik_public_url }}`)
       service: pihole
       entryPoints:
         - secureweb
@@ -37,7 +37,7 @@ http:
 
 
     delora:
-      rule: Host(`delora.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`delora.{{ traefik_public_url }}`)
       service: delora
       entryPoints:
         - web
@@ -46,7 +46,7 @@ http:
         - default-headers
 
     delora-secure:
-      rule: Host(`delora.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`delora.{{ traefik_public_url }}`)
       service: delora
       entryPoints:
         - secureweb
@@ -55,7 +55,7 @@ http:
         - default-headers
 
     openwrt-web:
-      rule: Host(`openwrt.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`openwrt.{{ traefik_public_url }}`)
       service: openwrt-service
       entryPoints:
         - web
@@ -64,7 +64,7 @@ http:
         - https-redirect-scheme
 
     openwrt-secure:
-      rule: Host(`openwrt.{{ TRAEFIK_PUBLIC_URL }}`)
+      rule: Host(`openwrt.{{ traefik_public_url }}`)
       service: openwrt-service
       entryPoints:
         - secureweb
