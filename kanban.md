@@ -1,12 +1,13 @@
 ## To Do
 
-- add rancher
-- add k8s
-- add portainer
+- add rpi init
+- add docker to pis
+- add portainer to pis
 
 ## Doing
 
-- create snapraid of drives
+- add pihole primary
+- make pihole server sec
 
 ## Done
 
@@ -14,3 +15,6 @@
 - create new server
 - fix: show drives through sata card
 - create fusion of hdds
+- add rancher
+- create snapraid of drives
+- add portainer
