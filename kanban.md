@@ -1,13 +1,11 @@
 ## To Do
 
-- add rpi init
 - add docker to pis
 - add portainer to pis
 
 ## Doing
 
-- add pihole primary
-- make pihole server sec
+- add rpi init
 
 ## Done
 
@@ -18,3 +16,5 @@
 - add rancher
 - create snapraid of drives
 - add portainer
+- add pihole primary
+- make pihole server sec
