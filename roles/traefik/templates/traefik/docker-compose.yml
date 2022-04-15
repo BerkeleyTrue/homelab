@@ -11,17 +11,22 @@ services:
     networks:
       - web
     ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
+      - 80:80 # http
+      - 443:443 # https
+      - 8080:8080 # dashboard
+      - 53:53 # dns
+      - 53:53/udp # dns
+      - 853:853 # dnsOverTLS
     environment:
       - CF_API_EMAIL={{ CLOUDFLARE_EMAIL }}
       - CF_DNS_API_TOKEN={{ CLOUDFLARE_TOKEN }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+
       - /var/log/traefik/access.log:/var/log/access.log
       - /var/log/traefik/traefik.log:/var/log/traefik.log
+
       - '{{ traefik_data }}/traefik.yml:/traefik.yml:ro'
       - '{{ traefik_data }}/config.yml:/config.yml:ro'
       - '{{ traefik_data }}/acme.json:/acme.json'

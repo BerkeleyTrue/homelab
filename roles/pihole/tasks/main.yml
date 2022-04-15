@@ -1,0 +1,29 @@
+---
+- name: Ensure docker network
+  docker_network:
+    name: web
+
+- name: Ensure Dir pihole
+  file:
+    path: '{{ container_home }}/pihole'
+    mode: 0755
+    state: directory
+
+- name: Ensure compose filepihole
+  template:
+    src: pihole/docker-compose.yml
+    dest: '{{ container_home }}/pihole/docker-compose.yml'
+    mode: 0644
+
+- name: Ensure pihole up
+  docker_compose:
+    project_name: pihole
+    project_src: '{{ container_home }}/pihole'
+
+- name: Ensure domain wildcard
+  become: true
+  become_user: root
+  template:
+    src: pihole/etc-dnsmasq.d/03-custom-dns.conf
+    dest: '{{ container_home }}/pihole/etc-dnsmasq.d/03-custom-dns.conf'
+    mode: 0644

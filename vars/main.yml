@@ -1,0 +1,2 @@
+---
+container_home: '{{ ansible_env.HOME }}/containers'
