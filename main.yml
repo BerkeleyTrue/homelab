@@ -22,3 +22,6 @@
     - heimdall
     - portainer
     - kuma
+    - name: samba
+      become: true
+      become_user: root
