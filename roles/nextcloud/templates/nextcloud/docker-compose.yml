@@ -1,25 +1,34 @@
 ---
 version: '3'
 
+volumes:
+  data:
+  postgres:
+  redis:
+
+networks:
+  web:
+    external: true
+
 services:
-  application:
+  nextcloud:
     container_name: nextcloud
     image: nextcloud:{{ nextcloud_version }}-apache
     restart: unless-stopped
     logging:
       driver: journald
     depends_on:
-      - database
-      - redis
+      - nextcloud_postgres
+      - nextcloud_redis
     volumes:
-      - nextcloud-db:/var/www/html
+      - data:/var/www/html
     environment:
-      POSTGRES_DATABASE: nextcloud
+      POSTGRES_DB: nextcloud
       POSTGRES_USER: nextcloud
       POSTGRES_PASSWORD: '{{ nextcloud_database_password }}'
-      POSTGRES_HOST: nextcloud-postgres:3306
+      POSTGRES_HOST: nextcloud_postgres:5432
 
-      REDIS_HOST: nextcloud-redis
+      REDIS_HOST: nextcloud_redis
       TRUSTED_PROXIES: 172.18.0.0/16
     networks:
       - web
@@ -45,8 +54,8 @@ services:
       - traefik.http.routers.nextcloud-secure.service=nextcloud-service
       - traefik.http.routers.nextcloud-secure.middlewares=nextcloud-dav
 
-  database:
-    container_name: nextcloud-postgres
+  nextcloud_postgres:
+    container_name: nextcloud_postgres
     image: postgres:14-alpine
     logging:
       driver: journald
@@ -54,17 +63,17 @@ services:
       POSTGRES_USER: nextcloud
       POSTGRES_PASSWORD: '{{ nextcloud_database_password }}'
     volumes:
-      - nextcloud-postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - web
 
-  redis:
-    container_name: nextcloud-redis
+  nextcloud_redis:
+    container_name: nextcloud_redis
     image: redis:7-alpine
     restart: unless-stopped
     volumes:
-      - nextcloud-redis:/data
+      - redis:/data
     networks:
       - web
     healthcheck:
@@ -72,12 +81,3 @@ services:
       interval: 1s
       timeout: 3s
       retries: 30
-
-volumes:
-  nextcloud-db:
-  nextcloud-postgres:
-  nextcloud-redis:
-
-networks:
-  web:
-    external: true
