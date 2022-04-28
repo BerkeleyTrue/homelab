@@ -18,10 +18,6 @@
     - name: systemd-resolve
       become: true
       become_user: root
-    - traefik
-    - heimdall
-    - portainer
-    - kuma
     - name: samba
       become: true
       become_user: root

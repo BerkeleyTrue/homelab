@@ -7,9 +7,9 @@ services:
     image: pihole/pihole:2022.04.2
     restart: unless-stopped
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
-    # ports:
-      # - 53:53/tcp
-      # - 53:53/udp
+    ports:
+      - 53:53/tcp # Route dns request directly to container instead of proxy
+      - 53:53/udp # this allows other containers to easily make dns request to pihole
       # - 67:67/udp  # Only required if you are using Pi-hole as your DHCP server
       # - 80:80/tcp
     environment:
@@ -30,9 +30,9 @@ services:
       - traefik.http.middlewares.add-pihole-prefix.addPrefix.prefix=/admin
 
       # service
-      - traefik.tcp.services.main-pihole.loadbalancer.server.port=53  # both DNS and dnsovertls
+      # - traefik.tcp.services.main-pihole.loadbalancer.server.port=53  # both DNS and dnsovertls
+      - traefik.udp.services.main-pihole.loadbalancer.server.port=853 # DNS over UDP
       - traefik.http.services.main-pihole.loadbalancer.server.port=80  # UI
-      - traefik.udp.services.main-pihole.loadbalancer.server.port=53 # DNS over UDP
 
       # https redirect
       - traefik.http.routers.main-pihole-web.rule=Host(`main-pihole.{{ traefik_public_url }}`)
@@ -47,25 +47,25 @@ services:
       # DNS
       # Can't filter unless using TLS as per traefik docs
       # A limit to how tcp works without TLS
-      - traefik.tcp.routers.dns.rule=HostSNI(`main-pihole.{{ traefik_public_url }}`)
-      - traefik.tcp.routers.dns.entrypoints=dns
-      - traefik.tcp.routers.dns.service=main-pihole
+      # - traefik.tcp.routers.dns.rule=HostSNI(`main-pihole.{{ traefik_public_url }}`)
+      # - traefik.tcp.routers.dns.entrypoints=dns
+      # - traefik.tcp.routers.dns.service=main-pihole
 
       # DNS over udp
-      - traefik.udp.routers.udpdns.entrypoints=dnsudp
-      - traefik.udp.routers.udpdns.service=main-pihole
+      # - traefik.udp.routers.udpdns.entrypoints=dnsudp
+      # - traefik.udp.routers.udpdns.service=main-pihole
 
       # DNS-over-TLS
-      - traefik.tcp.routers.dnsovertls.rule=HostSNI(`main-pihole.{{ traefik_public_url }}`)
-      - traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls
-      - traefik.tcp.routers.dnsovertls.service=main-pihole
-      - traefik.tcp.routers.dnsovertls.tls.certResolver=cloudflare
+      # - traefik.tcp.routers.dnsovertls.rule=HostSNI(`main-pihole.{{ traefik_public_url }}`)
+      # - traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls
+      # - traefik.tcp.routers.dnsovertls.service=main-pihole
+      # - traefik.tcp.routers.dnsovertls.tls.certResolver=cloudflare
 
-
-volumes:
-  pihole-db:
-    external:
-      name: pihole-db
+#
+# volumes:
+#   pihole-db:
+#     external:
+#       name: pihole-db
 
 
 networks:

@@ -1,3 +1,2 @@
 ---
-traefik_folder: '{{ ansible_env.HOME }}/traefik'
-traefik_data: '{{ traefik_folder }}/data'
+traefik_folder: '{{ container_home }}/traefik'

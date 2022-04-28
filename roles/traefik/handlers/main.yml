@@ -4,6 +4,6 @@
   become_user: root
   docker_compose:
     project_name: traefik
-    project_src: '{{ traefik_data }}'
+    project_src: '{{ traefik_folder }}'
     state: present
     restarted: true

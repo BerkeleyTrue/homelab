@@ -35,12 +35,12 @@ entrypoints:
         certResolver: cloudflare
 
   # for pihole
-  dns:
-    address: :53
-  dnsudp:
-    address: :53/udp
-  dnsovertls:
-    address: :853
+  # dns:
+  #   address: :53
+  # dnsudp:
+  #   address: :53/udp
+  # dnsovertls:
+  #   address: :853
 
 serversTransport:
   insecureSkipVerify: true

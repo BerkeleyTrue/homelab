@@ -8,4 +8,6 @@
   roles:
     - check_pass
     - traefik
+    - portainer
+    - kuma
     - pihole

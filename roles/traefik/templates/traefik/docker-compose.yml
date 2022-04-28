@@ -4,7 +4,7 @@ version: '2'
 services:
   traefik:
     image: traefik:v2.6
-    container_name: traefik_cont
+    container_name: traefik
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -14,9 +14,9 @@ services:
       - 80:80 # http
       - 443:443 # https
       - 8080:8080 # dashboard
-      - 53:53 # dns
-      - 53:53/udp # dns
-      - 853:853 # dnsOverTLS
+      # - 53:53 # dns
+      # - 53:53/udp # dns
+      # - 853:853 # dnsOverTLS
     environment:
       - CF_API_EMAIL={{ CLOUDFLARE_EMAIL }}
       - CF_DNS_API_TOKEN={{ CLOUDFLARE_TOKEN }}
@@ -27,9 +27,9 @@ services:
       - /var/log/traefik/access.log:/var/log/access.log
       - /var/log/traefik/traefik.log:/var/log/traefik.log
 
-      - '{{ traefik_data }}/traefik.yml:/traefik.yml:ro'
-      - '{{ traefik_data }}/config.yml:/config.yml:ro'
-      - '{{ traefik_data }}/acme.json:/acme.json'
+      - '{{ traefik_folder }}/traefik.yml:/traefik.yml:ro'
+      - '{{ traefik_folder }}/config.yml:/config.yml:ro'
+      - '{{ traefik_folder }}/acme.json:/acme.json'
     labels:
       - traefik.enable=true
       # - traefik.http.middlewares.traefik-auth.basicauth.users={{ traefik_user }}:{{ traefik_user_password_hash }}
