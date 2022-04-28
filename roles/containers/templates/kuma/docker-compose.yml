@@ -4,7 +4,7 @@ version: '3.1'
 services:
   uptime-kuma:
     image: louislam/uptime-kuma:1
-    container_name: uptime-kuma
+    container_name: kuma
     networks:
       - web
     volumes:

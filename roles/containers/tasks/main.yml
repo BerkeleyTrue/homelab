@@ -1,0 +1,9 @@
+---
+- name: Ensure Network
+  docker_network:
+    name: web
+
+- name: loop for container
+  include_tasks: container.yml
+  loop:
+    - kuma
