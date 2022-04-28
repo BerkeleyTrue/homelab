@@ -9,6 +9,12 @@
     mode: 0755
     state: directory
 
+- name: Ensure user data dir
+  file:
+    path: '{{ fuse_main_mount_point }}/nextcloud'
+    mode: 0755
+    state: directory
+
 - name: Ensure Compose file
   template:
     src: nextcloud/docker-compose.yml

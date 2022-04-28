@@ -22,6 +22,7 @@ services:
       - nextcloud_redis
     volumes:
       - data:/var/www/html
+      - '{{ fuse_main_mount_point }}/nextcloud:/var/www/html/data'
     environment:
       POSTGRES_DB: nextcloud
       POSTGRES_USER: nextcloud
