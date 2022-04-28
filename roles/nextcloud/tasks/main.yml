@@ -1,0 +1,21 @@
+---
+- name: Ensure network
+  docker_network:
+    name: web
+
+- name: Ensure Dir
+  file:
+    path: '{{ container_home }}/nextcloud'
+    mode: 0755
+    state: directory
+
+- name: Ensure Compose file
+  template:
+    src: nextcloud/docker-compose.yml
+    dest: '{{ container_home }}/nextcloud/docker-compose.yml'
+    mode: 0644
+
+- name: Ensure containers are up
+  docker_compose:
+    project_name: nextcloud
+    project_src: '{{ container_home }}/nextcloud'

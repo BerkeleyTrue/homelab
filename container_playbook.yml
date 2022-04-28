@@ -9,4 +9,5 @@
     - check_pass
     - traefik
     - pihole
+    - nextcloud
     - containers

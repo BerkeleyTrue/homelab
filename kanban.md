@@ -1,11 +1,12 @@
 ## To Do
 
+- move pi's to ubuntu
 - add docker to pis
 - add portainer to pis
 
 ## Doing
 
-- add rpi init
+- nextcloud: figure out data permission issue
 
 ## Done
 
@@ -18,3 +19,4 @@
 - add portainer
 - add pihole primary
 - make pihole server sec
+- fix DNS networking
