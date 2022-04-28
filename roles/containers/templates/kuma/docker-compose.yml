@@ -8,7 +8,7 @@ services:
     networks:
       - web
     volumes:
-      - kuma-data:/app/data
+      - kuma-db:/app/data
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -33,7 +33,7 @@ services:
 
 
 volumes:
-  kuma-data:
+  kuma-db:
 
 networks:
   web:

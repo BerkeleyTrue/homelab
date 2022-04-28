@@ -7,6 +7,6 @@
   include_tasks: container.yml
   loop:
     - name: kuma
-      db: false
+      db: true
     - name: portainer
       db: true

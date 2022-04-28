@@ -12,12 +12,12 @@
     dest: '{{ container_home }}/{{ item.name }}/docker-compose.yml'
     mode: 0644
 
-- name: Ensure Container is up {{ item.name }}
-  docker_compose:
-    project_name: '{{ item.name }}'
-    project_src: '{{ container_home }}/{{ item.name }}'
-
 - name: Ensure data volume for {{ item.name }}
   docker_volume:
     name: '{{ item.name }}-db'
   when: item.db
+
+- name: Ensure Container is up {{ item.name }}
+  docker_compose:
+    project_name: '{{ item.name }}'
+    project_src: '{{ container_home }}/{{ item.name }}'
