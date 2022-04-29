@@ -1,1 +1,1 @@
-ansible-playbook harden.yml --inventory hosts.ini  --user root
+ansible-playbook harden_playbook.yml --inventory hosts.ini  --user root
