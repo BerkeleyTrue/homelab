@@ -4,6 +4,11 @@
     pkg: sudo
     state: present
 
+- name: Add deploy user
+  user:
+    name: '{{ harden_linux_deploy_user }}'
+    shell: '{{ harden_linux_deploy_user_shell }}'
+
 - name: Add authorized keys for deploy user
   authorized_key:
     user: '{{ harden_linux_deploy_user }}'

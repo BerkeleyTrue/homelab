@@ -28,6 +28,11 @@
   hosts: dynamically_created_hosts
   become: true
   become_user: root
+
+  vars_files:
+    - vars/main.yml
+    - vars/secrets.yml
+
   vars_prompt:
   - name: new_hostname
     prompt: Please enter new hostname
@@ -37,7 +42,7 @@
     - name: reboot
       command: reboot now
 
-  tasks:
+  pre_tasks:
     - name: Install sudo
       package:
         pkg: sudo
@@ -65,3 +70,6 @@
       hostname:
         name: '{{ new_hostname }}'
       notify: reboot
+
+  roles:
+    - harden-linux

@@ -3,8 +3,20 @@ harden_linux_deploy_user: berkeleytrue
 harden_linux_deploy_user_public_keys:
   - /home/berkeleytrue/.ssh/id_ed25519.pub
 
+harden_linux_sshd_settings:
+  '^Port ': Port {{ default_ssh_port }}    # Set SSHd port
+
+harden_linux_deploy_user_shell: /bin/zsh
+harden_linux_ufw_rules:
+  - rule: allow
+    to_port: '{{ default_ssh_port }}'
+    protocol: tcp
+
 harden_linux_optional_packages:
   - neovim
+  - dnsutils
+  - curl
+  - zsh
 
 fuse_mount_points:
   # yamllint disable rule:line-length
