@@ -56,8 +56,10 @@
 - name: Combine harden_linux_sshd_settings and harden_linux_sshd_settings_user (if
     defined)
   set_fact:
-    harden_linux_sshd_settings: '{{ harden_linux_sshd_settings | combine(harden_linux_sshd_settings_user|default({}))
-      }}'
+    harden_linux_sshd_settings: '{{
+      harden_linux_sshd_settings |
+      combine(harden_linux_sshd_settings_user |
+      default({})) }}'
   tags:
     - ssh
 
@@ -68,15 +70,16 @@
     line: '{{ harden_linux_sshd_settings[item] }}'
     state: present
   notify: restart ssh
-  loop: '{{ harden_linux_sshd_settings|flatten }}'
+  loop: '{{ harden_linux_sshd_settings | flatten }}'
   tags:
     - ssh
 
 - name: Combine harden_linux_sysctl_settings and harden_linux_sysctl_settings_user
     (if defined)
   set_fact:
-    harden_linux_sysctl_settings: '{{ harden_linux_sysctl_settings | combine(harden_linux_sysctl_settings_user|default({}))
-      }}'
+    harden_linux_sysctl_settings: '{{
+      harden_linux_sysctl_settings |
+      combine(harden_linux_sysctl_settings_user|default({})) }}'
   tags:
     - sysctl
 

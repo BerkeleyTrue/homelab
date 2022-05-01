@@ -6,11 +6,11 @@
   tags:
     - ufw
 
-- name: Combine harden_linux_ufw_defaults and harden_linux_ufw_defaults_user (if
-    defined)
+- name: Combine harden_linux_ufw_defaults and harden_linux_ufw_defaults_user
   set_fact:
-    harden_linux_ufw_defaults: '{{ harden_linux_ufw_defaults | combine(harden_linux_ufw_defaults_user|default({}))
-      }}'
+    harden_linux_ufw_defaults: '{{
+      harden_linux_ufw_defaults |
+      combine(harden_linux_ufw_defaults_user|default({})) }}'
   tags:
     - ufw
 

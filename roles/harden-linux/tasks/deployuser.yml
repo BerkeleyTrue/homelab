@@ -13,8 +13,7 @@
   tags:
     - user
 
-- name: Ensure deploy user present in /etc/sudoers.d/{{ harden_linux_deploy_user
-    }}
+- name: Ensure deploy user present in /etc/sudoers.d/{{ harden_linux_deploy_user }}
   template:
     src: etc/sudoers.d/deployuser.j2
     dest: /etc/sudoers.d/{{ harden_linux_deploy_user }}
