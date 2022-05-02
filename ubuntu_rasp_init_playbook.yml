@@ -7,6 +7,10 @@
     prompt: Please enter the target host IP
     private: false
 
+  - name: cur_port
+    prompt: Please enter the current ssh port
+    private: false
+
   - name: cur_user
     prompt: Please enter current user
     default: ubuntu
@@ -23,6 +27,7 @@
         groups: dynamically_created_hosts
         ansible_ssh_user: '{{ cur_user }}'
         ansible_ssh_password: '{{ cur_pass }}'
+        ansible_ssh_port: '{{ cur_port }}'
 
 - name: Init ubuntu
   hosts: dynamically_created_hosts
@@ -69,6 +74,14 @@
     - name: Change hostname
       hostname:
         name: '{{ new_hostname }}'
+      notify: reboot
+
+    - name: Enable cgroup if not already enabled
+      lineinfile:
+        path: /boot/firmware/cmdline.txt
+        backrefs: true
+        regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
+        line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
       notify: reboot
 
   roles:
