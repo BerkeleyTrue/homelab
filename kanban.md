@@ -1,6 +1,5 @@
 ## To Do
 
-- move pi's to ubuntu
 - add docker to pis
 - add portainer to pis
 
@@ -20,3 +19,4 @@
 - add pihole primary
 - make pihole server sec
 - fix DNS networking
+- move pi's to ubuntu
