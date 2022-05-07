@@ -5,17 +5,11 @@
     mode: 0755
     state: directory
 
-
 - name: Ensure Compose file {{ item.name }}
   template:
     src: '{{ item.name }}/docker-compose.yml'
     dest: '{{ container_home }}/{{ item.name }}/docker-compose.yml'
     mode: 0644
-
-- name: Ensure data volume for {{ item.name }}
-  docker_volume:
-    name: '{{ item.name }}-db'
-  when: item.db
 
 - name: Ensure Container is up {{ item.name }}
   docker_compose:

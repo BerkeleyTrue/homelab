@@ -10,6 +10,8 @@
     state: directory
 
 - name: Ensure user data dir
+  become: true
+  become_user: root
   file:
     path: '{{ fuse_main_mount_point }}/nextcloud'
     mode: 0755
