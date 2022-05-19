@@ -1,0 +1,127 @@
+---
+dataDefinition:
+  - displayName: Main
+    color: indigo darken-2
+    fields:
+      - name: name
+        displayName: Name
+        type: string
+        showInTree: true
+
+      - name: _id
+        displayName: ID
+        type: string
+        disabled: true
+        showInTree: true
+        size: 12
+
+      - name: idLabeled
+        displayName: Item labeled with ID
+        type: boolean
+        color: red
+
+      - name: location
+        displayName: Location
+        type: path
+        size: 12
+        prefixes:
+          box01: House1/Room1/
+
+      - name: description
+        displayName: Description
+        type: string
+        hideInList: true
+        size: 12
+
+  - displayName: Status
+    color: indigo darken-2
+    fields:
+      - name: status
+        displayName: Status
+        type: libraryStatus
+        size: 12
+        showInTree: true
+
+      - name: lastModified
+        displayName: Last Modified
+        type: updatedAt
+
+      - name: holdReason
+        displayName: Hold reason
+        type: string
+        hideInList: true
+        size: 12
+
+  - displayName: Metadata
+    color: light-blue accent-4
+    fields:
+      - name: tags
+        displayName: Tags
+        type: list
+        size: 12
+
+      - name: code
+        displayName: Code
+        type: list
+        listType: upc
+        size: 12
+        hideInList: true
+
+  - displayName: Facts
+    color: light-blue lighten-3
+    size: 12
+    fields:
+      - name: weight
+        displayName: Weight
+        type: string
+
+      - name: dimensions
+        displayName: Dimensions
+        type: string
+
+      - name: expirationDate
+        displayName: Expiration Date
+        type: date
+
+      - name: imageURLs
+        displayName: Image URLs
+        type: list
+        listType: link
+        hideInList: true
+
+      - name: manualPaths
+        displayName: Manual paths
+        type: list
+        listType: link
+        hideInList: true
+
+  - displayName: Acquisition
+    color: light-blue accent-3
+    fields:
+      - name: acquiredFrom
+        displayName: Acquired from
+        type: string
+
+      - name: pricePaid
+        displayName: Price paid without tax
+        type: string
+
+      - name: receiptURLS
+        displayName: Receipt urls
+        type: list
+        listType: link
+        hideInList: true
+        size: 12
+
+      - name: acquireDate
+        displayName: Acquired date
+        type: date
+
+      - name: manufacturer
+        displayName: Manufacturer
+        type: string
+
+      - name: warranty
+        displayName: Warranty term
+        type: string
+        hideInList: true

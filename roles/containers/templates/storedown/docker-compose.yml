@@ -60,3 +60,9 @@ services:
       - traefik.http.routers.storedown-couchdb.entrypoints=secureweb
       - traefik.http.routers.storedown-couchdb.service=storedown-couchdb
       - traefik.http.routers.storedown-couchdb.middlewares=storedown-couchdb-stripprefix
+
+      # storeleft access
+      - traefik.http.routers.storeleft-couchdb.rule=Host(`couchdb.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storeleft-couchdb.entrypoints=secureweb
+      - traefik.http.routers.storeleft-couchdb.service=storedown-couchdb
+      - traefik.http.routers.storeleft-couchdb.middlewares=storedown-couchdb-stripprefix

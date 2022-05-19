@@ -1,0 +1,78 @@
+---
+version: '3'
+
+volumes:
+  data:
+    external:
+      name: storedown_data
+
+networks:
+  web:
+    external: true
+
+services:
+  storeleft:
+    container_name: storeleft
+    image: ghcr.io/berkeleytrue/storeleft:latest
+    restart: unless-stopped
+    environment:
+      COUCHDB_URL: http://storeleft_couchdb:5984
+      COUCHDB_USER: '{{ storeleft_couchdb_user }}'
+      COUCHDB_PASSWORD: '{{ storeleft_couchdb_password }}'
+      NEXT_PUBLIC_COUCHDB_DB: storeleft
+      NEXT_PUBLIC_COUCHDB_DB_REMOTE: storeleft
+    volumes:
+      - '{{ container_home }}/storeleft/storeleftrc.yml:/app/.storeleftrc.yml'
+    networks:
+      - web
+    depends_on:
+      - storeleft_couchdb
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+
+      # service
+      - traefik.http.services.storeleft-service.loadbalancer.server.port=3000
+
+      # web
+      - traefik.http.routers.storeleft-web.entrypoints=web
+      - traefik.http.routers.storeleft-web.rule=Host(`storeleft.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storeleft-web.service=storeleft-service
+      - traefik.http.routers.storeleft-web.middlewares=https-redirect,sslheader
+
+      # secure
+      - traefik.http.routers.storeleft-secure.rule=Host(`storeleft.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storeleft-secure.entrypoints=secureweb
+      - traefik.http.routers.storeleft-secure.service=storeleft-service
+
+  storeleft_couchdb:
+    container_name: storeleft_couchdb
+    image: couchdb
+    restart: unless-stopped
+    volumes:
+      - data:/opt/couchdb/data
+    networks:
+      - web
+    environment:
+      COUCHDB_USER: '{{ storeleft_couchdb_user }}'
+      COUCHDB_PASSWORD: '{{ storeleft_couchdb_password }}'
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+
+      # service
+      - traefik.http.services.storeleft-couchdb.loadbalancer.server.port=5984
+
+      # insecure
+      - traefik.http.routers.storeleft-couchdb-insecure.entrypoints=web
+      - traefik.http.routers.storeleft-couchdb-insecure.rule=Host(`storeleft.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storeleft-couchdb-insecure.service=storeleft-couchdb
+      - traefik.http.routers.storeleft-couchdb-insecure.middlewares=https-redirect,sslheader
+
+      # web access
+      - traefik.http.routers.storeleft-couchdb.rule=Host(`couchdb.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storeleft-couchdb.entrypoints=secureweb
+      - traefik.http.routers.storeleft-couchdb.service=storeleft-couchdb

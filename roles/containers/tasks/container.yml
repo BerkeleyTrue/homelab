@@ -11,6 +11,13 @@
     dest: '{{ container_home }}/{{ item.name }}/docker-compose.yml'
     mode: 0644
 
+- name: Ensure Config file {{ item.name }}
+  template:
+    src: '{{ item.name }}/{{ item.config}}'
+    dest: '{{ container_home }}/{{ item.name }}/{{ item.config }}'
+    mode: 0644
+  when: item.config is defined
+
 - name: Ensure Container is up {{ item.name }}
   docker_compose:
     project_name: '{{ item.name }}'

@@ -8,4 +8,6 @@
   loop:
     - name: kuma
     - name: portainer
-    - name: storedown
+    # - name: storedown
+    - name: storeleft
+      config: storeleftrc.yml
