@@ -18,8 +18,8 @@ services:
       # - 53:53/udp # dns
       # - 853:853 # dnsOverTLS
     environment:
-      - CF_API_EMAIL={{ CLOUDFLARE_EMAIL }}
-      - CF_DNS_API_TOKEN={{ CLOUDFLARE_TOKEN }}
+      - CF_API_EMAIL={{ cloudflare_email }}
+      - CF_DNS_API_TOKEN={{ cloudflare_token }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro

@@ -45,12 +45,12 @@ services:
 
       # web
       - traefik.http.routers.nextcloud-web.entrypoints=web
-      - traefik.http.routers.nextcloud-web.rule=Host(`nextcloud.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.nextcloud-web.rule=Host(`nextcloud.{{ traefik_public_url }}`)
       - traefik.http.routers.nextcloud-web.service=nextcloud-service
       - traefik.http.routers.nextcloud-web.middlewares=https-redirect,sslheader
 
       # secure
-      - traefik.http.routers.nextcloud-secure.rule=Host(`nextcloud.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.nextcloud-secure.rule=Host(`nextcloud.{{ traefik_public_url }}`)
       - traefik.http.routers.nextcloud-secure.entrypoints=secureweb
       - traefik.http.routers.nextcloud-secure.service=nextcloud-service
       - traefik.http.routers.nextcloud-secure.middlewares=nextcloud-dav

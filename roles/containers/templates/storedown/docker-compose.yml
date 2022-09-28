@@ -27,12 +27,12 @@ services:
 
       # web
       - traefik.http.routers.storedown-web.entrypoints=web
-      - traefik.http.routers.storedown-web.rule=Host(`storedown.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storedown-web.rule=Host(`storedown.{{ traefik_public_url }}`)
       - traefik.http.routers.storedown-web.service=storedown-service
       - traefik.http.routers.storedown-web.middlewares=https-redirect,sslheader
 
       # secure
-      - traefik.http.routers.storedown-secure.rule=Host(`storedown.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storedown-secure.rule=Host(`storedown.{{ traefik_public_url }}`)
       - traefik.http.routers.storedown-secure.entrypoints=secureweb
       - traefik.http.routers.storedown-secure.service=storedown-service
 
@@ -56,13 +56,13 @@ services:
       - traefik.http.services.storedown-couchdb.loadbalancer.server.port=5984
 
       # secure
-      - traefik.http.routers.storedown-couchdb.rule=Host(`storedown.{{ TRAEFIK_PUBLIC_URL }}`) && PathPrefix(`/_db`)
+      - traefik.http.routers.storedown-couchdb.rule=Host(`storedown.{{ traefik_public_url }}`) && PathPrefix(`/_db`)
       - traefik.http.routers.storedown-couchdb.entrypoints=secureweb
       - traefik.http.routers.storedown-couchdb.service=storedown-couchdb
       - traefik.http.routers.storedown-couchdb.middlewares=storedown-couchdb-stripprefix
 
       # storeleft access
-      - traefik.http.routers.storeleft-couchdb.rule=Host(`couchdb.{{ TRAEFIK_PUBLIC_URL }}`)
+      - traefik.http.routers.storeleft-couchdb.rule=Host(`couchdb.{{ traefik_public_url }}`)
       - traefik.http.routers.storeleft-couchdb.entrypoints=secureweb
       - traefik.http.routers.storeleft-couchdb.service=storedown-couchdb
       - traefik.http.routers.storeleft-couchdb.middlewares=storedown-couchdb-stripprefix
