@@ -1,10 +1,10 @@
 ---
 - name: Ensure Network
-  docker_network:
+  community.docker.docker_network:
     name: web
 
-- name: loop for container
-  include_tasks: container.yml
+- name: Loop for container
+  ansible.builtin.include_tasks: container.yml
   loop:
     - name: kuma
     - name: portainer
