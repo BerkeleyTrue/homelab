@@ -1,0 +1,13 @@
+---
+- name: Init data
+  community.docker.docker_container:
+    name: taskserver-init-data
+    image: taskserver_taskserver
+    env:
+      TASKDDATA: /var/taskd
+    command:
+      - gotas
+      - init
+    volumes:
+      - '{{ container_home }}/taskserver/data:/var/taskd'
+      - '{{ container_home }}/taskserver/certs:/etc/ssl/certs'

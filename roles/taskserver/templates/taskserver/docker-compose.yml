@@ -1,0 +1,39 @@
+---
+version: '3'
+
+networks:
+  web:
+    external: true
+
+services:
+  taskserver:
+    container_name: taskserver
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/taskd
+      - ./certs:/etc/ssl/certs
+    environment:
+      TASKDDATA: /var/taskd
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+
+      # service
+      - traefik.http.services.taskserver-service.loadbalancer.server.port=53589
+
+      # web
+      - traefik.http.routers.taskserver-web.entrypoints=web
+      - traefik.http.routers.taskserver-web.rule=Host(`taskwarrior.{{ traefik_public_url }}`)
+      - traefik.http.routers.taskserver-web.service=taskserver-service
+      - traefik.http.routers.taskserver-web.middlewares=https-redirect,sslheader
+
+      # secure
+      - traefik.http.routers.taskserver-secure.rule=Host(`taskwarrior.{{ traefik_public_url }}`)
+      - traefik.http.routers.taskserver-secure.entrypoints=secureweb
+      - traefik.http.routers.taskserver-secure.service=taskserver-service

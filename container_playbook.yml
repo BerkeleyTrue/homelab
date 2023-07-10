@@ -10,4 +10,5 @@
     - traefik
     - pihole
     - nextcloud
+    - taskserver
     - containers
