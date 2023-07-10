@@ -42,6 +42,7 @@
             ansible-lint
             yamlfix
             nodePackages.yaml-language-server
+            nodePackages.dockerfile-language-server-nodejs
 
             run-containers
             run-main
