@@ -21,19 +21,12 @@ services:
       - web
     labels:
       - traefik.enable=true
-      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
-
       # service
-      - traefik.http.services.taskserver-service.loadbalancer.server.port=53589
+      - traefik.tcp.services.taskserver-service.loadbalancer.server.port=53589
 
-      # web
-      - traefik.http.routers.taskserver-web.entrypoints=web
-      - traefik.http.routers.taskserver-web.rule=Host(`taskwarrior.{{ traefik_public_url }}`)
-      - traefik.http.routers.taskserver-web.service=taskserver-service
-      - traefik.http.routers.taskserver-web.middlewares=https-redirect,sslheader
-
-      # secure
-      - traefik.http.routers.taskserver-secure.rule=Host(`taskwarrior.{{ traefik_public_url }}`)
-      - traefik.http.routers.taskserver-secure.entrypoints=secureweb
-      - traefik.http.routers.taskserver-secure.service=taskserver-service
+      # web - taskwarrior does it's own validation against ca certs
+      # so we don't need https here?
+      - traefik.tcp.routers.taskserver-web.entrypoints=web
+      - traefik.tcp.routers.taskserver-web.rule=HostSNI(`taskwarrior.{{ traefik_public_url }}`)
+      - traefik.tcp.routers.taskserver-web.service=taskserver-service
+      - traefik.tcp.routers.taskserver-web.tls.passthrough=true
