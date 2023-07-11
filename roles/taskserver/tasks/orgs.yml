@@ -1,0 +1,21 @@
+---
+- name: Register Org {{ item }}
+  ansible.builtin.stat:
+    path: '{{ container_home }}/taskserver/data/orgs/{{ item }}'
+  register: org_dir
+
+- name: Ensure org {{ item }}
+  community.docker.docker_container:
+    name: taskserver_org
+    image: taskserver_taskserver
+    env:
+      TASKDDATA: /var/taskd
+    volumes:
+      - '{{ container_home }}/taskserver/data:/var/taskd'
+      - '{{ container_home }}/taskserver/certs:/etc/ssl/certs'
+    command:
+      - gotas
+      - add
+      - org
+      - '{{ item }}'
+  when: not org_dir.stat.exists

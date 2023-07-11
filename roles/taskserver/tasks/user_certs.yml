@@ -1,10 +1,10 @@
 ---
-- name: Register cert {{ item }}
+- name: Register cert {{ item.name }}
   ansible.builtin.stat:
-    path: '{{ container_home }}/taskserver/certs/{{ item }}.key'
+    path: '{{ container_home }}/taskserver/certs/{{ item.name }}.key'
   register: user_cert
 
-- name: Ensure cert {{ item }}
+- name: Ensure cert {{ item.name }}
   community.docker.docker_container:
     name: taskserver_user_certs
     image: taskserver_taskserver
@@ -21,5 +21,22 @@
       - add
       - client
       - -c
-      - '{{ item }}'
+      - '{{ item.name }}'
+  when: not user_cert.stat.exists
+
+- name: Ensure user {{ item.name }}
+  community.docker.docker_container:
+    name: taskserver_user_certs
+    image: taskserver_taskserver
+    env:
+      TASKDDATA: /var/taskd
+    volumes:
+      - '{{ container_home }}/taskserver/data:/var/taskd'
+      - '{{ container_home }}/taskserver/certs:/etc/ssl/certs'
+    command:
+      - gotas
+      - add
+      - user
+      - '{{ item.org }}'
+      - '{{ item.name }}'
   when: not user_cert.stat.exists

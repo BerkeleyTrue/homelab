@@ -53,8 +53,9 @@
     state: present
     block: |
       ca.cert=/etc/ssl/certs/ca.pem
-      server.cert=/etc/ssl/certs/r3dm.com.pem
-      server.key=/etc/ssl/certs/r3dm.com.key
+      server.cert=/etc/ssl/certs/{{ taskserver_domain }}.pem
+      server.key=/etc/ssl/certs/{{ taskserver_domain }}.key
+      server=0.0.0.0:53589
 
 - name: Register ca certs
   ansible.builtin.stat:
@@ -80,7 +81,7 @@
 
 - name: Register server certs
   ansible.builtin.stat:
-    path: '{{ container_home }}/taskserver/certs/r3dm.key'
+    path: '{{ container_home }}/taskserver/certs/{{ taskserver_domain }}'
   register: server_certs_init
 
 - name: Ensure Server certs
@@ -100,9 +101,13 @@
       - add
       - server
       - -c
-      - r3dm.com
+      - '{{ taskserver_domain }}'
   when: not ca_certs_init.stat.exists
 
 - name: Include User Certs
   ansible.builtin.include_tasks: user_certs.yml
   loop: '{{ taskserver_users }}'
+
+- name: Include Org Creation
+  ansible.builtin.include_tasks: orgs.yml
+  loop: '{{ taskserver_orgs }}'
