@@ -1,7 +1,0 @@
----
-taskserver_users:
-  - name: berks
-    org: org
-taskserver_domain: taskwarrior.{{ traefik_public_url }}
-taskserver_orgs:
-  - gotas
