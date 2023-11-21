@@ -25,8 +25,40 @@
         ./modules/parts
       ];
 
-      perSystem = {pkgs, ...}: {
+      perSystem = {
+        lib,
+        system,
+        inputs',
+        pkgs,
+        ...
+      }: {
         formatter = pkgs.alejandra;
+
+        _module.args = rec {
+          nixpkgs = {
+            config = lib.mkForce {
+              allowUnfree = true;
+            };
+
+            hostPlatform = system;
+          };
+
+          extraModuleArgs = {
+            inherit inputs' system;
+            inputs = lib.mkForce inputs;
+
+            repos = let
+              pkgsFrom = branch: system:
+                import branch {
+                  inherit system;
+                  inherit (nixpkgs) config overlays;
+                };
+            in {
+              stable = pkgsFrom inputs.stable system;
+              unstable = pkgsFrom inputs.unstable system;
+            };
+          };
+        };
       };
     };
 }
