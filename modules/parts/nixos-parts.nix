@@ -5,12 +5,17 @@
   withSystem,
   ...
 }: let
-  inherit (lib) mkOption mkEnableOption types optionals;
+  inherit (lib) mkIf mkMerge mkOption mkEnableOption types optionals;
   cfg = config.nixos-parts;
   shared = cfg.shared;
   hosts = cfg.hosts;
 in {
   options.nixos-parts = {
+    enable = mkEnableOption {
+      default = false;
+      description = "Enable nixos-parts flake";
+    };
+
     shared = {
       modules = mkOption {
         type = types.listOf types.unspecified;
@@ -106,5 +111,9 @@ in {
     };
   };
 
-  config.flake.nixosConfigurations = builtins.mapAttrs (_: value: value.nixos) hosts;
+  config = mkMerge [
+    (mkIf cfg.enable {
+      flake.nixosConfigurations = builtins.mapAttrs (_: value: value.nixos) hosts;
+    })
+  ];
 }
