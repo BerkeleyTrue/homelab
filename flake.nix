@@ -3,6 +3,7 @@
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
+    boulder.url = "github:berkeleytrue/nix-boulder-banner";
 
     ### -- package repos
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
@@ -18,8 +19,10 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
       imports = [
+        inputs.boulder.flakeModule
         ./modules/parts
         ./hosts
+        ./modules/shell.nix
       ];
 
       perSystem = {
@@ -30,7 +33,6 @@
       }: let
         pkgs = import inputs.nixpkgs {
           inherit system;
-          hostPlatform = system;
           config = {
             allowUnfree = true;
           };
