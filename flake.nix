@@ -2,17 +2,13 @@
   description = "My homelab configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
-
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     ### -- package repos
-    stable.url = "github:nixos/nixpkgs/release-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nur.url = "github:nix-community/NUR";
     home-manager.url = "github:nix-community/home-manager";
-
-    nixpkgs.follows = "stable";
 
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -23,41 +19,31 @@
       systems = ["x86_64-linux"];
       imports = [
         ./modules/parts
+        ./hosts
       ];
 
       perSystem = {
         lib,
         system,
         inputs',
-        pkgs,
         ...
-      }: {
+      }: let
+        pkgs = import inputs.nixpkgs {
+          inherit system;
+          hostPlatform = system;
+          config = {
+            allowUnfree = true;
+          };
+        };
+        unstable = import inputs.unstable {
+          inherit system;
+          inherit (pkgs) config overlays;
+        };
+      in {
         formatter = pkgs.alejandra;
 
-        _module.args = rec {
-          nixpkgs = {
-            config = lib.mkForce {
-              allowUnfree = true;
-            };
-
-            hostPlatform = system;
-          };
-
-          extraModuleArgs = {
-            inherit inputs' system;
-            inputs = lib.mkForce inputs;
-
-            repos = let
-              pkgsFrom = branch: system:
-                import branch {
-                  inherit system;
-                  inherit (nixpkgs) config overlays;
-                };
-            in {
-              stable = pkgsFrom inputs.stable system;
-              unstable = pkgsFrom inputs.unstable system;
-            };
-          };
+        _module.args = {
+          inherit pkgs unstable;
         };
       };
     };

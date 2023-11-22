@@ -2,7 +2,6 @@
   config,
   lib,
   inputs,
-  withSystem,
   ...
 }: let
   inherit (lib) mkIf mkMerge mkOption mkEnableOption types optionals;
@@ -14,6 +13,19 @@ in {
     enable = mkEnableOption {
       default = false;
       description = "Enable nixos-parts flake";
+    };
+
+    defaults = {
+      hostPlatform = mkOption {
+        type = types.enum ["aarch64-linux" "x86_64-linux"];
+        description = "Default host platform.";
+        default = "x86_64-linux";
+      };
+
+      stateVersion = mkOption {
+        type = types.str;
+        description = "Default state version";
+      };
     };
 
     shared = {
@@ -47,14 +59,13 @@ in {
 
           username = mkOption {
             type = types.str;
-            description = "Username for hosts ${name}, defaults to config key";
-            default = name;
+            description = "Username for host ${name}";
           };
 
           hostname = mkOption {
             type = types.str;
-            description = "Hostname for ${name}";
-            required = true;
+            description = "Hostname for ${name}, defaults to config key";
+            default = name;
           };
 
           installer = mkOption {
@@ -76,15 +87,16 @@ in {
             '';
           };
 
-          system = mkOption {
+          hostPlatform = mkOption {
             type = types.enum ["aarch64-linux" "x86_64-linux"];
-            description = "System configuration for hosts ${name}";
-            default = "x86_64-linux";
+            description = "Host platform, defaults to defaults.hostPlatform";
+            default = cfg.defaults.hostPlatform;
           };
 
           stateVersion = mkOption {
             type = types.str;
-            description = "State version for hosts ${name}";
+            description = "State version for hosts ${name}, defaults to defaults.stateVersion";
+            default = cfg.defaults.stateVersion;
           };
 
           nixos = mkOption {
@@ -94,19 +106,19 @@ in {
           };
         };
 
-        config.nixos = withSystem config.system (ctx:
-          inputs.nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit (shared) extraSpecialArgs;
-              inherit (config) specialArgs system stateVersion username hostname;
-            };
+        config.nixos = inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit (shared) extraSpecialArgs;
+            inherit (config) specialArgs stateVersion username hostname hostPlatform;
+          };
 
-            modules =
-              [shared.modules]
-              ++ (optionals (config.installer != null) [config.installer])
-              # additional modules
-              ++ config.modules;
-          });
+          modules =
+            [(_: {nixpkgs.hostPlatform = config.hostPlatform;})]
+            ++ shared.modules
+            ++ (optionals (config.installer != null) [config.installer])
+            # additional modules
+            ++ config.modules;
+        };
       }));
     };
   };
