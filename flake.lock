@@ -55,6 +55,21 @@
         "type": "github"
       }
     },
+    "home-manager-parts": {
+      "locked": {
+        "lastModified": 1700703079,
+        "narHash": "sha256-9Rp/UQCj61021U966sy55l2cuYN/gBclfgwFREVuSVg=",
+        "owner": "berkeleytrue",
+        "repo": "home-manager-parts",
+        "rev": "1a2e0379a99aec21df9bdf0a4fe1fc31bc30688b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "berkeleytrue",
+        "repo": "home-manager-parts",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1700403855,
@@ -91,6 +106,7 @@
         "boulder": "boulder",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
+        "home-manager-parts": "home-manager-parts",
         "nixpkgs": "nixpkgs",
         "nur": "nur",
         "unstable": "unstable"
