@@ -4,6 +4,7 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     boulder.url = "github:berkeleytrue/nix-boulder-banner";
+    home-manager-parts.url = "github:berkeleytrue/home-manager-parts";
 
     ### -- package repos
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
