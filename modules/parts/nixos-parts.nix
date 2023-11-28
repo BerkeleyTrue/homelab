@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  withSystem,
   ...
 }: let
   inherit (lib) mkIf mkMerge mkOption mkEnableOption types optionals;
@@ -50,22 +51,38 @@ in {
         config,
         lib,
         ...
-      }: {
+      }: let
+        hostCfg = config;
+        inherit
+          (withSystem hostCfg.hostPlatform ({
+            inputs',
+            pkgs,
+            ...
+          }: {inherit inputs';}))
+          inputs'
+          ;
+      in {
         options = {
           enable = mkEnableOption {
             default = false;
             description = "Enable hosts ${name}'s flake";
           };
 
-          username = mkOption {
-            type = types.str;
-            description = "Username for host ${name}";
-          };
-
           hostname = mkOption {
             type = types.str;
             description = "Hostname for ${name}, defaults to config key";
             default = name;
+          };
+
+          hostPlatform = mkOption {
+            type = types.enum ["aarch64-linux" "x86_64-linux"];
+            description = "Host platform, defaults to defaults.hostPlatform";
+            default = cfg.defaults.hostPlatform;
+          };
+
+          username = mkOption {
+            type = types.str;
+            description = "Username for host ${name}";
           };
 
           installer = mkOption {
@@ -87,12 +104,6 @@ in {
             '';
           };
 
-          hostPlatform = mkOption {
-            type = types.enum ["aarch64-linux" "x86_64-linux"];
-            description = "Host platform, defaults to defaults.hostPlatform";
-            default = cfg.defaults.hostPlatform;
-          };
-
           stateVersion = mkOption {
             type = types.str;
             description = "State version for hosts ${name}, defaults to defaults.stateVersion";
@@ -108,6 +119,7 @@ in {
 
         config.nixos = inputs.nixpkgs.lib.nixosSystem {
           specialArgs = {
+            inherit inputs';
             inherit (shared) extraSpecialArgs;
             inherit (config) specialArgs stateVersion username hostname hostPlatform;
           };
