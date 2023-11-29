@@ -6,8 +6,8 @@
     ...
   }: let
     buildIsoImage = pkgs.writeShellScriptBin "build-iso-image" ''
-      system=$1
-      nix build .\#nixosConfigurations.$system.config.system.build.isoImage
+      hostname=$1
+      nix build .\#nixosConfigurations.$hostname.config.system.build.isoImage
     '';
   in {
     boulder.commands = [
