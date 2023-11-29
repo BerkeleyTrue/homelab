@@ -13,12 +13,48 @@
 
   environment = {
     systemPackages = with pkgs; [
+      bind # dns client
+      cryptsetup
+      curl # for downloading stuff
+      dogdns # dns client
+      du-dust # disk usage
+      efibootmgr
+      efivar
+      eza # modern replacement of ls
+      fd # modern replacement of find
+      fuse
+      fuse3
+      fzf # fuzzy finder
       gitMinimal
+      gptfdisk
       home-manager
+      htop
+      inputs'.fh.packages.default
+      iputils # ping
+      lsof
       neovim
+      ngrok
+      p7zip
+      parted
+      procs
       ripgrep
       rsync
-      inputs'.fh.packages.default
+      rustscan
+      silver-searcher
+      socat
+      sshfs-fuse
+      tmux
+      traceroute
+      udisks
+      wget # for downloading stuff
+
+      # for hardware
+      sdparm
+      hdparm
+      smartmontools # for diagnosing hard disks
+      pciutils
+      usbutils
+      nvme-cli
     ];
 
     variables = rec {
