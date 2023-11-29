@@ -1,8 +1,4 @@
-{
-  inputs,
-  modulesPath,
-  ...
-}: {
+{inputs, ...}: {
   nixos-parts = {
     enable = true;
 
@@ -13,10 +9,7 @@
 
     shared = {
       modules = [
-        (modulesPath + "/installer/scan/not-detected.nix") # not sure what this is for but it's in the example
-        ./shared/nix-settings.nix
-        ./shared/firewall.nix
-        ./shared/misc.nix
+        ./shared
       ];
     };
 

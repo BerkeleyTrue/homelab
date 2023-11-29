@@ -2,18 +2,23 @@
   description = "My homelab configuration";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    boulder.url = "github:berkeleytrue/nix-boulder-banner";
-    home-manager-parts.url = "github:berkeleytrue/home-manager-parts";
-
     ### -- package repos
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nur.url = "github:nix-community/NUR";
     home-manager.url = "github:nix-community/home-manager";
 
+    ###  flake-parts
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    boulder.url = "github:berkeleytrue/nix-boulder-banner";
+    home-manager-parts.url = "github:berkeleytrue/home-manager-parts";
+    #### flakehub cli
+    fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*.tar.gz";
+
+    ### -- follow nixpkgs
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    fh.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {flake-parts, ...}:
